@@ -1,6 +1,5 @@
 package com.heroku.backend.service;
 
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -17,7 +16,7 @@ public class PingService {
         LocalDateTime localDateTime = LocalDateTime.now();
 
         Map<String, String> response = new LinkedHashMap<>();
-        response.put("status", "alive");
+        response.put("status", "running");
         response.put("timestamp", dateTimeFormatter.format(localDateTime));
 
         return ResponseEntity.ok(response);
