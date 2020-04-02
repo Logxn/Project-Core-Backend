@@ -27,6 +27,8 @@ public class EmailCheckService
             {"email":email, "status":"register", "timestamp":currentTimestamp}
 
             Either way - we will send back an OK response to the user.
+            The frontend will then decide how to continue with this email -> register or login.
+
             No Authentication required.
          */
 
