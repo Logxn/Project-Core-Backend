@@ -32,7 +32,7 @@ public class EmailCheckService
             No Authentication required.
          */
 
-        response.put("timestamp", localDateTime);
+        response.put("timestamp", dateTimeFormatter.format(localDateTime));
         return ResponseEntity.ok(response);
     }
 }
