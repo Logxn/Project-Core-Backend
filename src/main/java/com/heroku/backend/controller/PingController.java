@@ -1,12 +1,13 @@
 package com.heroku.backend.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.MediaType;
 import com.heroku.backend.service.PingService;
+
+import java.util.Map;
 
 @RestController
 public class PingController
@@ -19,7 +20,7 @@ public class PingController
     }
 
     @RequestMapping(path="/ping", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> ping()
+    public ResponseEntity<Map<String, String>> ping()
     {
         return pingService.ping();
     }

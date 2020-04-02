@@ -1,24 +1,24 @@
 package com.heroku.backend.service;
 
-import org.apache.coyote.Response;
-import org.springframework.http.MediaType;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Service
 public class PingService {
-    
-    public ResponseEntity<String> ping()
+
+    public ResponseEntity<Map<String, String>> ping()
     {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         LocalDateTime localDateTime = LocalDateTime.now();
 
-        String response = "Alive - " + dateTimeFormatter.format(localDateTime);
+        Map<String, String> response = new LinkedHashMap<>();
+        response.put("status", "alive");
+        response.put("timestamp", dateTimeFormatter.format(localDateTime));
 
         return ResponseEntity.ok(response);
     }
