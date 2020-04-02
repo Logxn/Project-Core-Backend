@@ -1,6 +1,9 @@
 package com.heroku.backend.service;
 
+import com.heroku.backend.entity.EmailEntity;
 import org.springframework.http.ResponseEntity;
+
+import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -30,6 +33,16 @@ public class EmailCheckService
 
             No Authentication required.
          */
+
+        // Below is a fake object
+        // emailEntity will be a returned result from the database.
+        EmailEntity emailEntity = new EmailEntity(null, null);
+
+        response.put("email", email);
+        response.put("status", "login");
+
+        if(emailEntity.getStatus() == null)
+            response.replace("status", "register");
 
         response.put("timestamp", dateTimeFormatter.format(localDateTime));
         return ResponseEntity.ok(response);
