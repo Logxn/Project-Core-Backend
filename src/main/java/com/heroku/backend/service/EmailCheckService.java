@@ -32,16 +32,30 @@ public class EmailCheckService
             The frontend will then decide how to continue with this email -> register or login.
 
             No Authentication required.
+
+            Database Idea:
+            {
+                "_id": {
+                    "$oid": "-CUT-"
+                },
+                "users": [{
+                    "email": "foo@loganthompson.de",
+                }, {
+                    "email": "bar@loganthompson.de",
+                }]
+            }
          */
 
         // Below is a fake object
         // emailEntity will be a returned result from the database.
-        EmailEntity emailEntity = new EmailEntity(null, null);
+        EmailEntity emailEntity = new EmailEntity(null);
 
         response.put("email", email);
         response.put("status", "login");
 
-        if(emailEntity.getStatus() == null)
+        // Assuming the email wasn't found in the database
+        // We might get a null object (?)
+        if(emailEntity == null)
             response.replace("status", "register");
 
         response.put("timestamp", dateTimeFormatter.format(localDateTime));

@@ -17,16 +17,9 @@ public class EmailEntity {
     private String id;
 
     private String email;
-    private String status;
 
-    public EmailEntity(String email, String status)
+    public EmailEntity(String email)
     {
         this.email = email;
-        this.status = status;
-    }
-
-    public String getStatus()
-    {
-        return this.status;
     }
 }
