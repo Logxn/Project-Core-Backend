@@ -33,17 +33,14 @@ public class EmailCheckService
 
             No Authentication required.
 
-            Database Idea:
+            Document idea:
             {
                 "_id": {
-                    "$oid": "-CUT-"
+                    "$oid": "-snip-"
                 },
-                "users": [{
-                    "email": "foo@loganthompson.de",
-                }, {
-                    "email": "bar@loganthompson.de",
-                }]
+                "email": "foo@loganthompson.de"
             }
+
          */
 
         // Below is a fake object
