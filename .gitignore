@@ -32,3 +32,6 @@ build/
 
 ### CUSTOM ###
 /lib/
+
+# secrets
+application-localhost.properties
