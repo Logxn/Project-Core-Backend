@@ -18,13 +18,13 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
-import javax.jms.Message;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -53,7 +53,7 @@ public class RegisterService {
         mongoOperations = (MongoOperations) applicationContext.getBean("mongoTemplate");
     }
 
-    public ResponseEntity<RegisterResponseData> register(RegisterData registerData) throws MissingParameterException, UserExistsException {
+    public ResponseEntity<RegisterResponseData> register(@RequestBody() RegisterData registerData) throws MissingParameterException, UserExistsException {
         String email = registerData.getEmail();
         String username = registerData.getUsername();
         String password = registerData.getPassword();
