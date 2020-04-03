@@ -1,4 +1,4 @@
-package com.heroku.backend.data;
+package com.heroku.backend.data.response;
 
 import lombok.Data;
 

@@ -1,7 +1,7 @@
 package com.heroku.backend.service;
 
 import com.heroku.backend.MongoDBConfiguration;
-import com.heroku.backend.data.EmailResponseData;
+import com.heroku.backend.data.response.EmailResponseData;
 import com.heroku.backend.entity.EmailEntity;
 import com.heroku.backend.enums.Status;
 import com.heroku.backend.repository.EmailRepository;

@@ -1,6 +1,6 @@
 package com.heroku.backend.controller;
 
-import com.heroku.backend.data.EmailResponseData;
+import com.heroku.backend.data.response.EmailResponseData;
 import com.heroku.backend.service.EmailCheckService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
