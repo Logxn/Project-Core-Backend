@@ -59,7 +59,9 @@ public class RegisterService {
         String password = registerData.getPassword();
         AccountType accountType = registerData.getAccountType();
 
-        if(email == null || username == null || password == null || registerData.getAccountType() == null)
+        System.out.println("M: " + email + " U: " + username + " P: " + password + " AT: " + accountType);
+
+        if(email == null || username == null || password == null || accountType == null)
             throw new MissingParameterException();
 
         EmailEntity foundEmail = emailRepository.findByEmail(email);
