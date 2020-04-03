@@ -16,10 +16,9 @@ public class MongoDBConfiguration {
     private static String mongoDbUriConstant;
 
     public @Bean MongoDbFactory mongoDbFactory() {
-        if (mongoDbUri.startsWith("mongodb:")) {
+        if (mongoDbUri.startsWith("mongodb+srv:")) {
             mongoDbUriConstant = mongoDbUri;
         }
-
         return new SimpleMongoClientDbFactory(mongoDbUriConstant);
     }
 
