@@ -7,6 +7,7 @@ import com.heroku.backend.data.response.RegisterResponseData;
 import com.heroku.backend.entity.EmailEntity;
 import com.heroku.backend.entity.UserEntity;
 import com.heroku.backend.enums.AccountType;
+import com.heroku.backend.enums.ConnectionStatus;
 import com.heroku.backend.enums.Status;
 import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.exceptions.UserExistsException;
@@ -58,7 +59,10 @@ public class RegisterService {
         RegisterResponseData responseData = new RegisterResponseData(LocalDateTime.now());
         responseData.setStatus(Status.SUCCESS);
 
-        usersRepository.insert(new UserEntity(email, username, encryptedPassword, accountType));
+        UserEntity newUser = new UserEntity(email, username, encryptedPassword, accountType);
+        newUser.updateConnection(ConnectionStatus.LOGGED_OUT);
+
+        usersRepository.insert(newUser);
         emailRepository.insert(new EmailEntity(email));
 
         return ResponseEntity.ok(responseData);
