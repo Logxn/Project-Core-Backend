@@ -9,13 +9,17 @@ import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Data
-public class ResponseData {
+public class EmailResponseData {
     private String email;
     private Status status;
     private LocalDateTime localDateTime;
 
-    public ResponseData(String email, LocalDateTime localDateTime) {
+    public EmailResponseData(String email, LocalDateTime localDateTime) {
         this.email = email;
         this.localDateTime = localDateTime;
+    }
+
+    public void setStatus(Status status){
+        this.status = status;
     }
 }

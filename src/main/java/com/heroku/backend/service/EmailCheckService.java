@@ -1,7 +1,7 @@
 package com.heroku.backend.service;
 
 import com.heroku.backend.MongoDBConfiguration;
-import com.heroku.backend.data.ResponseData;
+import com.heroku.backend.data.EmailResponseData;
 import com.heroku.backend.entity.EmailEntity;
 import com.heroku.backend.enums.Status;
 import com.heroku.backend.repository.EmailRepository;
@@ -25,10 +25,10 @@ public class EmailCheckService {
         mongoOperations = (MongoOperations) applicationContext.getBean("mongoTemplate");
     }
 
-    public ResponseEntity<ResponseData> checkEmail(String email) {
+    public ResponseEntity<EmailResponseData> checkEmail(String email) {
         EmailEntity userFoundByEmail = emailRepository.findByEmail(email);
 
-        ResponseData responseData = new ResponseData(email, LocalDateTime.now());
+        EmailResponseData responseData = new EmailResponseData(email, LocalDateTime.now());
         responseData.setStatus(Status.LOGIN);
 
         if (userFoundByEmail == null) {

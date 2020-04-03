@@ -1,6 +1,6 @@
 package com.heroku.backend.controller;
 
-import com.heroku.backend.data.ResponseData;
+import com.heroku.backend.data.EmailResponseData;
 import com.heroku.backend.service.EmailCheckService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ public class EmailCheckController {
     }
 
     @GetMapping("/user/checkEmail")
-    public ResponseEntity<ResponseData> checkEmail(@RequestParam("email") String email) {
+    public ResponseEntity<EmailResponseData> checkEmail(@RequestParam("email") String email) {
         return emailCheckService.checkEmail(email);
     }
 }
