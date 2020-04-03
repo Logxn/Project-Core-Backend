@@ -22,14 +22,15 @@ public class CryptoHelper {
 
     private byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private IvParameterSpec ivParameterSpec;
+    private SecretKeyFactory secretKeyFactory;
 
-    public CryptoHelper(){
+    public CryptoHelper() throws NoSuchAlgorithmException {
         this.ivParameterSpec = new IvParameterSpec(iv);
+        this.secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
     }
 
     public String encryptString(String input){
         try{
-            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             KeySpec keySpec = new PBEKeySpec(key.toCharArray(), salt.getBytes(), 65536, 256);
             SecretKey tmp = secretKeyFactory.generateSecret(keySpec);
             SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
@@ -57,12 +58,11 @@ public class CryptoHelper {
 
     public String decryptString(String encryptedInput){
         try{
-            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             KeySpec keySpec = new PBEKeySpec(key.toCharArray(), salt.getBytes(), 65536, 256);
             SecretKey tmp = secretKeyFactory.generateSecret(keySpec);
             SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
 
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
             return new String(cipher.doFinal(Base64.getDecoder().decode(encryptedInput)));
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException e) {

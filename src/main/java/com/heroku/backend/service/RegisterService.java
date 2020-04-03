@@ -45,9 +45,6 @@ public class RegisterService {
     @Value("${encryption.salt}")
     private String salt;
 
-    private static SecretKeySpec secretKey;
-    private static byte[] key;
-
     public RegisterService(UsersRepository usersRepository, EmailRepository emailRepository) {
         this.cryptoHelper = new CryptoHelper();
         this.emailRepository = emailRepository;
