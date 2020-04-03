@@ -59,7 +59,7 @@ public class LoginService {
         String encryptedPassword = foundUser.getEncryptedPassword();
         String decryptedPassword = decryptPassword(encryptedPassword);
 
-        if(encryptedPassword != decryptedPassword)
+        if(password != decryptedPassword)
             throw new InvalidUserPassException();
 
         LoginResponseData loginResponse = new LoginResponseData(foundUser.getUsername(), LocalDateTime.now());
