@@ -1,5 +1,6 @@
 package com.heroku.backend.service;
 
+import com.heroku.backend.CryptoHelper;
 import com.heroku.backend.data.LoginData;
 import com.heroku.backend.data.response.LoginResponseData;
 import com.heroku.backend.entity.UserEntity;
@@ -33,6 +34,7 @@ public class LoginService {
 
     private EmailRepository emailRepository;
     private UsersRepository usersRepository;
+    private CryptoHelper cryptoHelper;
 
     @Value("${encryption.salt}")
     private String salt;
@@ -42,6 +44,7 @@ public class LoginService {
     public LoginService(EmailRepository emailRepository, UsersRepository usersRepository){
         this.emailRepository = emailRepository;
         this.usersRepository = usersRepository;
+        this.cryptoHelper = new CryptoHelper();
     }
 
     public ResponseEntity<LoginResponseData> login(@RequestBody LoginData loginData) throws MissingParameterException, InvalidUserPassException {
@@ -57,7 +60,7 @@ public class LoginService {
             throw new InvalidUserPassException();
 
         String encryptedPassword = foundUser.getEncryptedPassword();
-        String decryptedPassword = decryptPassword(encryptedPassword);
+        String decryptedPassword = cryptoHelper.decryptString(encryptedPassword);
 
         if(password != decryptedPassword)
             throw new InvalidUserPassException();
@@ -69,23 +72,4 @@ public class LoginService {
         return ResponseEntity.ok(loginResponse);
     }
 
-    // Like I said - I might move this to a separate class
-    public String decryptPassword(String encryptedPassword){
-        MessageDigest sha = null;
-
-        try{
-            key = this.salt.getBytes("UTF-8");
-            sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16);
-            this.secretKey = new SecretKeySpec(key, "AES");
-
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(DECRYPT_MODE, this.secretKey);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(encryptedPassword)));
-        } catch (NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | UnsupportedEncodingException | NoSuchPaddingException | InvalidKeyException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 }
