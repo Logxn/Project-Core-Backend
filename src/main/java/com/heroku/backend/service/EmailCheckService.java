@@ -3,7 +3,6 @@ package com.heroku.backend.service;
 import com.heroku.backend.entity.EmailEntity;
 import org.springframework.http.ResponseEntity;
 
-import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
