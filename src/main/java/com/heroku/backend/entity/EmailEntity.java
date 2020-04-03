@@ -10,7 +10,7 @@ import javax.persistence.Id;
 @Entity
 @Data
 @NoArgsConstructor
-@Document(collection = "emails") // I guess this is where I will save them
+@Document(collection = "emails")
 public class EmailEntity {
 
     @Id
@@ -18,8 +18,7 @@ public class EmailEntity {
 
     private String email;
 
-    public EmailEntity(String email)
-    {
+    public EmailEntity(String email) {
         this.email = email;
     }
 }
