@@ -24,8 +24,6 @@ public class LoginService {
 
     private EmailRepository emailRepository;
     private UsersRepository usersRepository;
-
-    @Autowired
     private CryptoHelper cryptoHelper;
 
     public LoginService(EmailRepository emailRepository, UsersRepository usersRepository, CryptoHelper cryptoHelper){
@@ -49,8 +47,10 @@ public class LoginService {
         String encryptedPassword = foundUser.getEncryptedPassword();
         String decryptedPassword = cryptoHelper.decryptString(encryptedPassword);
 
-        if(password != decryptedPassword)
-            throw new InvalidUserPassException();
+        if(password != decryptedPassword){
+            System.out.println("Expected PW: " + password);
+            System.out.println("Decrypted PW: " + decryptedPassword);
+            throw new InvalidUserPassException();}
 
         LoginResponseData loginResponse = new LoginResponseData(foundUser.getUsername(), LocalDateTime.now());
         loginResponse.setStatus(Status.SUCCESS);
