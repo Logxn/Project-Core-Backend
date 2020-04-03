@@ -29,7 +29,7 @@ public class LoginService {
         this.cryptoHelper = cryptoHelper;
     }
 
-    public ResponseEntity<LoginResponseData> login(@RequestBody LoginData loginData) throws MissingParameterException, InvalidUserPassException {
+    public ResponseEntity<LoginResponseData> login(@RequestBody LoginData loginData) throws MissingParameterException, InvalidUserPassException{
         String email = loginData.getEmail();
         String password = loginData.getPassword();
 
