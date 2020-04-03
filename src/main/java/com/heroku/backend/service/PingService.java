@@ -10,8 +10,7 @@ import java.util.Map;
 @Service
 public class PingService {
 
-    public ResponseEntity<Map<String, String>> ping()
-    {
+    public ResponseEntity<Map<String, String>> ping() {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         LocalDateTime localDateTime = LocalDateTime.now();
 
