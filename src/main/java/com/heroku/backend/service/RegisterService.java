@@ -1,6 +1,7 @@
 package com.heroku.backend.service;
 
 import com.heroku.backend.MongoDBConfiguration;
+import com.heroku.backend.data.RegisterData;
 import com.heroku.backend.data.response.RegisterResponseData;
 import com.heroku.backend.entity.EmailEntity;
 import com.heroku.backend.entity.UserEntity;
@@ -50,8 +51,13 @@ public class RegisterService {
         mongoOperations = (MongoOperations) applicationContext.getBean("mongoTemplate");
     }
 
-    public ResponseEntity<RegisterResponseData> register(String email, String username, String password, AccountType accountType) throws MissingParameterException, UserExistsException {
-        if(email == null || email.isEmpty() || password == null || password.isEmpty() || username == null || username.isEmpty() || accountType == null)
+    public ResponseEntity<RegisterResponseData> register(RegisterData registerData) throws MissingParameterException, UserExistsException {
+        String email = registerData.getEmail();
+        String username = registerData.getUsername();
+        String password = registerData.getPassword();
+        AccountType accountType = registerData.getAccountType();
+
+        if(email == null || username == null || password == null || registerData.getAccountType() == null)
             throw new MissingParameterException();
 
         EmailEntity foundEmail = emailRepository.findByEmail(email);
