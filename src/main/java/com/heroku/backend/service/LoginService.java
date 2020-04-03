@@ -59,7 +59,7 @@ public class LoginService {
         String encryptedPassword = foundUser.getEncryptedPassword();
         String decryptedPassword = decryptPassword(encryptedPassword);
 
-        if(encryptedPassword != decryptedPassword)
+        if(password != decryptedPassword)
             throw new InvalidUserPassException();
 
         LoginResponseData loginResponse = new LoginResponseData(foundUser.getUsername(), LocalDateTime.now());
@@ -74,14 +74,14 @@ public class LoginService {
         MessageDigest sha = null;
 
         try{
-            key = salt.getBytes("UTF-8");
+            key = this.salt.getBytes("UTF-8");
             sha = MessageDigest.getInstance("SHA-1");
             key = sha.digest(key);
             key = Arrays.copyOf(key, 16);
-            secretKey = new SecretKeySpec(key, "AES");
+            this.secretKey = new SecretKeySpec(key, "AES");
 
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            cipher.init(DECRYPT_MODE, secretKey);
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(DECRYPT_MODE, this.secretKey);
             return new String(cipher.doFinal(Base64.getDecoder().decode(encryptedPassword)));
         } catch (NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | UnsupportedEncodingException | NoSuchPaddingException | InvalidKeyException e) {
             e.printStackTrace();
