@@ -24,7 +24,7 @@ public class CryptoHelper {
     private IvParameterSpec ivParameterSpec;
     private SecretKeyFactory secretKeyFactory;
 
-    public CryptoHelper() throws NoSuchAlgorithmException {
+    public CryptoHelper(){
         this.ivParameterSpec = new IvParameterSpec(iv);
 
         try {
@@ -32,7 +32,7 @@ public class CryptoHelper {
         }
         catch(NoSuchAlgorithmException e)
         {
-            
+
         }
     }
 
