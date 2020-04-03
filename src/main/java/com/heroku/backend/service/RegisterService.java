@@ -1,5 +1,6 @@
 package com.heroku.backend.service;
 
+import com.heroku.backend.CryptoHelper;
 import com.heroku.backend.MongoDBConfiguration;
 import com.heroku.backend.data.RegisterData;
 import com.heroku.backend.data.response.RegisterResponseData;
@@ -37,17 +38,15 @@ import java.util.Base64;
 public class RegisterService {
 
     private EmailRepository emailRepository;
-
     private UsersRepository usersRepository;
     private MongoOperations mongoOperations;
+    private CryptoHelper cryptoHelper;
 
     @Value("${encryption.salt}")
     private String salt;
 
-    private static SecretKeySpec secretKey;
-    private static byte[] key;
-
     public RegisterService(UsersRepository usersRepository, EmailRepository emailRepository) {
+        this.cryptoHelper = new CryptoHelper();
         this.emailRepository = emailRepository;
         this.usersRepository = usersRepository;
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MongoDBConfiguration.class);
@@ -67,7 +66,7 @@ public class RegisterService {
         if(foundEmail != null)
             throw new UserExistsException();
 
-        String encryptedPassword = encryptPassword(password);
+        String encryptedPassword = cryptoHelper.encryptString(password);
         RegisterResponseData responseData = new RegisterResponseData(LocalDateTime.now());
         responseData.setStatus(Status.SUCCESS);
 
@@ -77,24 +76,4 @@ public class RegisterService {
         return ResponseEntity.ok(responseData);
     }
 
-    // Might move this to an external class
-    private String encryptPassword(String password){
-        MessageDigest sha = null;
-
-        try{
-            key = this.salt.getBytes("UTF-8");
-            sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest();
-            key = Arrays.copyOf(key, 16);
-            this.secretKey = new SecretKeySpec(key, "AES");
-
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, this.secretKey);
-
-            return Base64.getEncoder().encodeToString(cipher.doFinal(password.getBytes("UTF-8")));
-        } catch (UnsupportedEncodingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
-            e.printStackTrace();
-            throw new InternalException("Error while encrypting password");
-        }
-    }
 }
