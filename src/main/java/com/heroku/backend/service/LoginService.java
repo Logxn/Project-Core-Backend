@@ -5,8 +5,7 @@ import com.heroku.backend.data.response.LoginResponseData;
 import com.heroku.backend.entity.UserEntity;
 import com.heroku.backend.enums.Status;
 import com.heroku.backend.exceptions.MissingParameterException;
-import com.heroku.backend.exceptions.PasswordMismatchException;
-import com.heroku.backend.exceptions.UserNotFoundException;
+import com.heroku.backend.exceptions.InvalidUserPassException;
 import com.heroku.backend.repository.EmailRepository;
 import com.heroku.backend.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,7 +44,7 @@ public class LoginService {
         this.usersRepository = usersRepository;
     }
 
-    public ResponseEntity<LoginResponseData> login(@RequestBody LoginData loginData) throws MissingParameterException, UserNotFoundException, PasswordMismatchException {
+    public ResponseEntity<LoginResponseData> login(@RequestBody LoginData loginData) throws MissingParameterException, InvalidUserPassException {
         String email = loginData.getEmail();
         String password = loginData.getPassword();
 
@@ -55,13 +54,13 @@ public class LoginService {
         UserEntity foundUser = usersRepository.findByEmail(email);
 
         if(foundUser == null)
-            throw new UserNotFoundException();
+            throw new InvalidUserPassException();
 
         String encryptedPassword = foundUser.getEncryptedPassword();
         String decryptedPassword = decryptPassword(encryptedPassword);
 
         if(encryptedPassword != decryptedPassword)
-            throw new PasswordMismatchException();
+            throw new InvalidUserPassException();
 
         LoginResponseData loginResponse = new LoginResponseData(foundUser.getUsername(), LocalDateTime.now());
         loginResponse.setStatus(Status.SUCCESS);
