@@ -53,7 +53,7 @@ public class RegisterService {
         mongoOperations = (MongoOperations) applicationContext.getBean("mongoTemplate");
     }
 
-    public ResponseEntity<RegisterResponseData> register(@RequestBody() RegisterData registerData) throws MissingParameterException, UserExistsException {
+    public ResponseEntity<RegisterResponseData> register(@RequestBody RegisterData registerData) throws MissingParameterException, UserExistsException {
         String email = registerData.getEmail();
         String username = registerData.getUsername();
         String password = registerData.getPassword();
