@@ -44,8 +44,7 @@ public class RegisterService {
     private static SecretKeySpec secretKey;
     private static byte[] key;
 
-    public RegisterService(UsersRepository usersRepository)
-    {
+    public RegisterService(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MongoDBConfiguration.class);
         mongoOperations = (MongoOperations) applicationContext.getBean("mongoTemplate");
