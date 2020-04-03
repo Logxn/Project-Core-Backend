@@ -11,4 +11,14 @@ public class PingResponseData {
         this.localDateTime = localDateTime;
     }
 
+    public String getStatus()
+    {
+        return this.status;
+    }
+
+    public LocalDateTime getLocalDateTime()
+    {
+        return this.localDateTime;
+    }
+
 }
