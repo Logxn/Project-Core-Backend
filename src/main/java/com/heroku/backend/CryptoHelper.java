@@ -1,6 +1,7 @@
 package com.heroku.backend;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
@@ -14,6 +15,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 
+@Service
 public class CryptoHelper {
     @Value("${encryption.key}")
     private String key;
@@ -71,7 +73,7 @@ public class CryptoHelper {
         try{
             System.out.println("Decryption Key: " + key);
             System.out.println("Decryption Salt: " + salt);
-            
+
             SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             KeySpec keySpec = new PBEKeySpec(key.toCharArray(), salt.getBytes(), 65536, 256);
             SecretKey tmp = secretKeyFactory.generateSecret(keySpec);
