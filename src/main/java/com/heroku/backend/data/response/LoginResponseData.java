@@ -9,9 +9,11 @@ import java.time.LocalDateTime;
 public class LoginResponseData {
 
     private LocalDateTime localDateTime;
+    private String username;
     private Status status;
 
-    public LoginResponseData(LocalDateTime localDateTime){
+    public LoginResponseData(String username, LocalDateTime localDateTime){
+        this.username = username;
         this.localDateTime = localDateTime;
     }
 

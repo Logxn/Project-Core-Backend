@@ -63,7 +63,7 @@ public class LoginService {
         if(encryptedPassword != decryptedPassword)
             throw new PasswordMismatchException();
 
-        LoginResponseData loginResponse = new LoginResponseData(LocalDateTime.now());
+        LoginResponseData loginResponse = new LoginResponseData(foundUser.getUsername(), LocalDateTime.now());
         loginResponse.setStatus(Status.SUCCESS);
 
         //ToDo: Add Auth-Token system per user, with refresh-token and expiry time
