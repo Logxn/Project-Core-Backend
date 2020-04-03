@@ -34,8 +34,8 @@ public class RegisterService {
     @Value("${encryption.salt}")
     private String salt;
 
-    public RegisterService(UsersRepository usersRepository, EmailRepository emailRepository) {
-        this.cryptoHelper = new CryptoHelper();
+    public RegisterService(UsersRepository usersRepository, EmailRepository emailRepository, CryptoHelper cryptoHelper) {
+        this.cryptoHelper = cryptoHelper;
         this.emailRepository = emailRepository;
         this.usersRepository = usersRepository;
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MongoDBConfiguration.class);
