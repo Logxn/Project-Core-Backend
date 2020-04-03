@@ -11,14 +11,12 @@ public class PingController
 {
     private final PingService pingService;
 
-    public PingController(PingService pingService)
-    {
+    public PingController(PingService pingService) {
         this.pingService = pingService;
     }
 
     @GetMapping("/ping")
-    public ResponseEntity<Map<String, String>> ping()
-    {
+    public ResponseEntity<Map<String, String>> ping() {
         return pingService.ping();
     }
 }

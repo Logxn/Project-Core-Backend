@@ -10,14 +10,12 @@ public class EmailCheckController {
 
     private final EmailCheckService emailCheckService;
 
-    public EmailCheckController(EmailCheckService emailCheckService)
-    {
+    public EmailCheckController(EmailCheckService emailCheckService) {
         this.emailCheckService = emailCheckService;
     }
 
     @GetMapping("/user/checkEmail")
-    public ResponseEntity<Map<String, Object>> checkEmail(@RequestParam("email") String email)
-    {
+    public ResponseEntity<Map<String, Object>> checkEmail(@RequestParam("email") String email) {
         return emailCheckService.checkEmail(email);
     }
 }

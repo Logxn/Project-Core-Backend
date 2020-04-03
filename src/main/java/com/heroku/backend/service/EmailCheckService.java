@@ -9,10 +9,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class EmailCheckService
-{
-    public ResponseEntity<Map<String, Object>> checkEmail(String email)
-    {
+public class EmailCheckService {
+    public ResponseEntity<Map<String, Object>> checkEmail(String email) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         LocalDateTime localDateTime = LocalDateTime.now();
         Map<String, Object> response = new LinkedHashMap<>();
