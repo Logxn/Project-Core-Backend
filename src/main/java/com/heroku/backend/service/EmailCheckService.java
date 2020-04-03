@@ -1,9 +1,10 @@
 package com.heroku.backend.service;
 
 import com.heroku.backend.MongoDBConfiguration;
-import com.heroku.backend.data.EmailResponseData;
+import com.heroku.backend.data.response.EmailResponseData;
 import com.heroku.backend.entity.EmailEntity;
 import com.heroku.backend.enums.Status;
+import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.repository.EmailRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -25,7 +26,10 @@ public class EmailCheckService {
         mongoOperations = (MongoOperations) applicationContext.getBean("mongoTemplate");
     }
 
-    public ResponseEntity<EmailResponseData> checkEmail(String email) {
+    public ResponseEntity<EmailResponseData> checkEmail(String email) throws MissingParameterException {
+        if(email == null || email.isEmpty())
+            throw new MissingParameterException();
+
         EmailEntity userFoundByEmail = emailRepository.findByEmail(email);
 
         EmailResponseData responseData = new EmailResponseData(email, LocalDateTime.now());

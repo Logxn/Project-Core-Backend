@@ -1,6 +1,6 @@
 package com.heroku.backend.controller;
 
-import com.heroku.backend.data.PingResponseData;
+import com.heroku.backend.data.response.PingResponseData;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;;

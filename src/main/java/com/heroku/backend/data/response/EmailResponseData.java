@@ -1,4 +1,4 @@
-package com.heroku.backend.data;
+package com.heroku.backend.data.response;
 
 import com.heroku.backend.enums.Status;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,5 @@ public class EmailResponseData {
         this.localDateTime = localDateTime;
     }
 
-    public void setStatus(Status status){
-        this.status = status;
-    }
+    public void setStatus(Status status){ this.status = status; }
 }

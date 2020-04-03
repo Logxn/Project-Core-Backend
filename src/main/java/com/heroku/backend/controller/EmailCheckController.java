@@ -1,6 +1,7 @@
 package com.heroku.backend.controller;
 
-import com.heroku.backend.data.EmailResponseData;
+import com.heroku.backend.data.response.EmailResponseData;
+import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.service.EmailCheckService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ public class EmailCheckController {
     }
 
     @GetMapping("/user/checkEmail")
-    public ResponseEntity<EmailResponseData> checkEmail(@RequestParam("email") String email) {
+    public ResponseEntity<EmailResponseData> checkEmail(@RequestParam("email") String email) throws MissingParameterException {
         return emailCheckService.checkEmail(email);
     }
 }
