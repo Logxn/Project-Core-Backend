@@ -72,6 +72,7 @@ public class RegisterService {
         responseData.setStatus(Status.SUCCESS);
 
         usersRepository.insert(new UserEntity(email, username, encryptedPassword, accountType));
+        emailRepository.insert(new EmailEntity(email));
 
         return ResponseEntity.ok(responseData);
     }
