@@ -34,13 +34,12 @@ public class CryptoHelper {
         }
         catch(NoSuchAlgorithmException e)
         {
-
+            e.printStackTrace();
         }
     }
 
     public String encryptString(String input){
         try{
-            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             KeySpec keySpec = new PBEKeySpec(key.toCharArray(), salt.getBytes(), 65536, 256);
             SecretKey tmp = secretKeyFactory.generateSecret(keySpec);
             SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
@@ -68,7 +67,6 @@ public class CryptoHelper {
 
     public String decryptString(String encryptedInput){
         try{
-            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             KeySpec keySpec = new PBEKeySpec(key.toCharArray(), salt.getBytes(), 65536, 256);
             SecretKey tmp = secretKeyFactory.generateSecret(keySpec);
             SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
