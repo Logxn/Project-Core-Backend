@@ -26,7 +26,14 @@ public class CryptoHelper {
 
     public CryptoHelper() throws NoSuchAlgorithmException {
         this.ivParameterSpec = new IvParameterSpec(iv);
-        this.secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+
+        try {
+            this.secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        }
+        catch(NoSuchAlgorithmException e)
+        {
+            
+        }
     }
 
     public String encryptString(String input){
