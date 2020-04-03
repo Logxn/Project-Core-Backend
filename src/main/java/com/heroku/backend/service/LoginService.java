@@ -9,6 +9,7 @@ import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.exceptions.InvalidUserPassException;
 import com.heroku.backend.repository.EmailRepository;
 import com.heroku.backend.repository.UsersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,12 +24,14 @@ public class LoginService {
 
     private EmailRepository emailRepository;
     private UsersRepository usersRepository;
+
+    @Autowired
     private CryptoHelper cryptoHelper;
 
-    public LoginService(EmailRepository emailRepository, UsersRepository usersRepository){
+    public LoginService(EmailRepository emailRepository, UsersRepository usersRepository, CryptoHelper cryptoHelper){
         this.emailRepository = emailRepository;
         this.usersRepository = usersRepository;
-        this.cryptoHelper = new CryptoHelper();
+        this.cryptoHelper = cryptoHelper;
     }
 
     public ResponseEntity<LoginResponseData> login(@RequestBody LoginData loginData) throws MissingParameterException, InvalidUserPassException {
