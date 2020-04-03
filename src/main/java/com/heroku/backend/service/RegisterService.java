@@ -6,12 +6,12 @@ import com.heroku.backend.data.response.RegisterResponseData;
 import com.heroku.backend.entity.EmailEntity;
 import com.heroku.backend.entity.UserEntity;
 import com.heroku.backend.enums.AccountType;
+import com.heroku.backend.enums.Status;
 import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.exceptions.UserExistsException;
 import com.heroku.backend.repository.EmailRepository;
 import com.heroku.backend.repository.UsersRepository;
 import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -29,13 +29,13 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Base64;
 
 @Service
 public class RegisterService {
 
-    @Autowired
     private EmailRepository emailRepository;
 
     private UsersRepository usersRepository;
@@ -47,7 +47,8 @@ public class RegisterService {
     private static SecretKeySpec secretKey;
     private static byte[] key;
 
-    public RegisterService(UsersRepository usersRepository) {
+    public RegisterService(UsersRepository usersRepository, EmailRepository emailRepository) {
+        this.emailRepository = emailRepository;
         this.usersRepository = usersRepository;
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MongoDBConfiguration.class);
         mongoOperations = (MongoOperations) applicationContext.getBean("mongoTemplate");
@@ -59,8 +60,6 @@ public class RegisterService {
         String password = registerData.getPassword();
         AccountType accountType = registerData.getAccountType();
 
-        System.out.println("M: " + email + " U: " + username + " P: " + password + " AT: " + accountType);
-
         if(email == null || username == null || password == null || accountType == null)
             throw new MissingParameterException();
 
@@ -69,7 +68,8 @@ public class RegisterService {
             throw new UserExistsException();
 
         String encryptedPassword = encryptPassword(password);
-        RegisterResponseData responseData = new RegisterResponseData(email, username, encryptedPassword, accountType);
+        RegisterResponseData responseData = new RegisterResponseData(LocalDateTime.now());
+        responseData.setStatus(Status.SUCCESS);
 
         usersRepository.insert(new UserEntity(email, username, encryptedPassword, accountType));
 

@@ -1,23 +1,18 @@
 package com.heroku.backend.data.response;
 
-import com.heroku.backend.enums.AccountType;
 import com.heroku.backend.enums.Status;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class RegisterResponseData {
 
-    private String username;
-    private String email;
-    private String password;
-    private AccountType accountType;
+    private LocalDateTime localDateTime;
     private Status status;
 
-    public RegisterResponseData(String username, String email, String encryptedPassword, AccountType accountType){
-        this.username = username;
-        this.email = email;
-        this.password = encryptedPassword;
-        this.accountType = accountType;
+    public RegisterResponseData(LocalDateTime localDateTime){
+        this.localDateTime = localDateTime;
     }
 
     public void setStatus(Status status){
