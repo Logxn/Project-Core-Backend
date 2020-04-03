@@ -1,7 +1,10 @@
 package com.heroku.backend.data;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
 public class PingResponseData {
     private String status;
     private LocalDateTime localDateTime;
@@ -10,15 +13,4 @@ public class PingResponseData {
         this.status = status;
         this.localDateTime = localDateTime;
     }
-
-    public String getStatus()
-    {
-        return this.status;
-    }
-
-    public LocalDateTime getLocalDateTime()
-    {
-        return this.localDateTime;
-    }
-
 }
