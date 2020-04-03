@@ -6,7 +6,7 @@ import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.exceptions.UserExistsException;
 import com.heroku.backend.service.RegisterService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 public class RegisterController {
     private final RegisterService registerService;
@@ -15,7 +15,7 @@ public class RegisterController {
         this.registerService = registerService;
     }
 
-    @GetMapping("/register")
+    @PostMapping("/register")
     public ResponseEntity<RegisterResponseData> Register(RegisterData registerData) throws MissingParameterException, UserExistsException {
         return registerService.register(registerData);
     }
