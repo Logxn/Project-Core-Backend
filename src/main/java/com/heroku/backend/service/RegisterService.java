@@ -89,7 +89,7 @@ public class RegisterService {
             this.secretKey = new SecretKeySpec(key, "AES");
 
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            cipher.init(Cipher.ENCRYPT_MODE, this.secretKey);
 
             return Base64.getEncoder().encodeToString(cipher.doFinal(password.getBytes("UTF-8")));
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
