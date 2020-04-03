@@ -40,9 +40,6 @@ public class CryptoHelper {
 
     public String encryptString(String input){
         try{
-            System.out.println("Encryption Key: " + key);
-            System.out.println("Encryption Salt: " + salt);
-
             SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             KeySpec keySpec = new PBEKeySpec(key.toCharArray(), salt.getBytes(), 65536, 256);
             SecretKey tmp = secretKeyFactory.generateSecret(keySpec);
@@ -71,9 +68,6 @@ public class CryptoHelper {
 
     public String decryptString(String encryptedInput){
         try{
-            System.out.println("Decryption Key: " + key);
-            System.out.println("Decryption Salt: " + salt);
-
             SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             KeySpec keySpec = new PBEKeySpec(key.toCharArray(), salt.getBytes(), 65536, 256);
             SecretKey tmp = secretKeyFactory.generateSecret(keySpec);

@@ -9,13 +9,10 @@ import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.exceptions.InvalidUserPassException;
 import com.heroku.backend.repository.EmailRepository;
 import com.heroku.backend.repository.UsersRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.crypto.spec.SecretKeySpec;
 import java.time.LocalDateTime;
 
 
@@ -47,9 +44,7 @@ public class LoginService {
         String encryptedPassword = foundUser.getEncryptedPassword();
         String decryptedPassword = cryptoHelper.decryptString(encryptedPassword);
 
-        if(password != decryptedPassword){
-            System.out.println("Expected PW: " + password);
-            System.out.println("Decrypted PW: " + decryptedPassword);
+        if(!password.equals(decryptedPassword)){
             throw new InvalidUserPassException();}
 
         LoginResponseData loginResponse = new LoginResponseData(foundUser.getUsername(), LocalDateTime.now());
