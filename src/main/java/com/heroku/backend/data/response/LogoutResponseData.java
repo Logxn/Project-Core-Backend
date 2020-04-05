@@ -6,11 +6,11 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class LogoutResponse {
+public class LogoutResponseData {
     private Status status;
     private LocalDateTime localDateTime;
 
-    public LogoutResponse(Status status, LocalDateTime localDateTime){
+    public LogoutResponseData(Status status, LocalDateTime localDateTime){
         this.status = status;
         this.localDateTime = localDateTime;
     }

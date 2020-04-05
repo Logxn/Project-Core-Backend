@@ -2,7 +2,7 @@ package com.heroku.backend.service;
 
 import com.heroku.backend.MongoDBConfiguration;
 import com.heroku.backend.data.LogoutData;
-import com.heroku.backend.data.response.LogoutResponse;
+import com.heroku.backend.data.response.LogoutResponseData;
 import com.heroku.backend.entity.UserEntity;
 import com.heroku.backend.enums.ConnectionStatus;
 import com.heroku.backend.enums.Status;
@@ -29,7 +29,7 @@ public class LogoutService {
         mongoOperations = (MongoOperations) applicationContext.getBean("mongoTemplate");
     }
 
-    public ResponseEntity<LogoutResponse> logout(@RequestBody LogoutData logoutData) throws MissingParameterException, UserNotLoggedInException {
+    public ResponseEntity<LogoutResponseData> logout(@RequestBody LogoutData logoutData) throws MissingParameterException, UserNotLoggedInException {
         String username = logoutData.getUsername();
 
         if(username == null)
@@ -43,7 +43,7 @@ public class LogoutService {
         foundUser.updateConnection(ConnectionStatus.LOGGED_OUT);
         mongoOperations.save(foundUser);
 
-        LogoutResponse logoutResponse = new LogoutResponse(Status.SUCCESS, LocalDateTime.now());
-        return ResponseEntity.ok(logoutResponse);
+        LogoutResponseData logoutResponseData = new LogoutResponseData(Status.SUCCESS, LocalDateTime.now());
+        return ResponseEntity.ok(logoutResponseData);
     }
 }

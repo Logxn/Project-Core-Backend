@@ -1,7 +1,7 @@
 package com.heroku.backend.controller;
 
 import com.heroku.backend.data.LogoutData;
-import com.heroku.backend.data.response.LogoutResponse;
+import com.heroku.backend.data.response.LogoutResponseData;
 import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.exceptions.UserNotLoggedInException;
 import com.heroku.backend.service.LogoutService;
@@ -19,7 +19,7 @@ public class LogoutController {
     }
 
     @PostMapping("/user/logout")
-    public ResponseEntity<LogoutResponse> logout(@RequestBody LogoutData logoutData) throws MissingParameterException, UserNotLoggedInException {
+    public ResponseEntity<LogoutResponseData> logout(@RequestBody LogoutData logoutData) throws MissingParameterException, UserNotLoggedInException {
         return logoutService.logout(logoutData);
     }
 }
