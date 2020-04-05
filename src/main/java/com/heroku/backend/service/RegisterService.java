@@ -7,12 +7,12 @@ import com.heroku.backend.data.response.RegisterResponseData;
 import com.heroku.backend.entity.EmailEntity;
 import com.heroku.backend.entity.UserEntity;
 import com.heroku.backend.enums.AccountType;
+import com.heroku.backend.enums.ConnectionStatus;
 import com.heroku.backend.enums.Status;
 import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.exceptions.UserExistsException;
 import com.heroku.backend.repository.EmailRepository;
 import com.heroku.backend.repository.UsersRepository;
-import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -59,7 +59,10 @@ public class RegisterService {
         RegisterResponseData responseData = new RegisterResponseData(LocalDateTime.now());
         responseData.setStatus(Status.SUCCESS);
 
-        usersRepository.insert(new UserEntity(email, username, encryptedPassword, accountType));
+        UserEntity newUser = new UserEntity(email, username, encryptedPassword, accountType);
+        newUser.updateConnection(ConnectionStatus.LOGGED_OUT);
+
+        usersRepository.insert(newUser);
         emailRepository.insert(new EmailEntity(email));
 
         return ResponseEntity.ok(responseData);

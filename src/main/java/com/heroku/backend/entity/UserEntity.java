@@ -1,6 +1,7 @@
 package com.heroku.backend.entity;
 
 import com.heroku.backend.enums.AccountType;
+import com.heroku.backend.enums.ConnectionStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,6 +22,7 @@ public class UserEntity {
     private String username;
     private String encryptedPassword;
     private AccountType accountType;
+    private ConnectionStatus connectionStatus;
 
     public UserEntity(String email, String username, String password, AccountType accountType) {
         this.email = email;
@@ -28,4 +30,9 @@ public class UserEntity {
         this.encryptedPassword = password;
         this.accountType = accountType;
     }
+
+    public void updateConnection(ConnectionStatus connectionStatus){
+        this.connectionStatus = connectionStatus;
+    }
+
 }
