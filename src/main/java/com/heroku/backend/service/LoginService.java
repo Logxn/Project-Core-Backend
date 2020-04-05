@@ -69,7 +69,6 @@ public class LoginService {
         LoginResponseData loginResponse = new LoginResponseData(foundUser.getUsername(), jwtTokenService.generateToken(foundUser.getUsername()), LocalDateTime.now());
         loginResponse.setStatus(Status.SUCCESS);
 
-        //ToDo: Add Auth-Token system per user, with refresh-token and expiry time
         return ResponseEntity.ok(loginResponse);
     }
 

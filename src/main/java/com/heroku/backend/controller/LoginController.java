@@ -19,7 +19,7 @@ public class LoginController {
     public LoginController(LoginService loginService){ this.loginService = loginService; }
 
     @PostMapping("/login")
-    private ResponseEntity<LoginResponseData> login(@RequestBody LoginData loginData)
+    public ResponseEntity<LoginResponseData> login(@RequestBody LoginData loginData)
             throws MissingParameterException, InvalidUserPassException, LoggedInException {
         return loginService.login(loginData);
     }
