@@ -27,12 +27,14 @@ public class LoginService {
 
     private EmailRepository emailRepository;
     private UsersRepository usersRepository;
+    private JwtTokenService jwtTokenService;
     private CryptoHelper cryptoHelper;
     private MongoOperations mongoOperations;
 
-    public LoginService(EmailRepository emailRepository, UsersRepository usersRepository, CryptoHelper cryptoHelper){
+    public LoginService(EmailRepository emailRepository, UsersRepository usersRepository, JwtTokenService jwtTokenService, CryptoHelper cryptoHelper){
         this.emailRepository = emailRepository;
         this.usersRepository = usersRepository;
+        this.jwtTokenService = jwtTokenService;
         this.cryptoHelper = cryptoHelper;
 
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MongoDBConfiguration.class);
@@ -64,7 +66,7 @@ public class LoginService {
         foundUser.updateConnection(ConnectionStatus.LOGGED_IN);
         mongoOperations.save(foundUser);
 
-        LoginResponseData loginResponse = new LoginResponseData(foundUser.getUsername(), LocalDateTime.now());
+        LoginResponseData loginResponse = new LoginResponseData(foundUser.getUsername(), jwtTokenService.generateToken(foundUser.getUsername()), LocalDateTime.now());
         loginResponse.setStatus(Status.SUCCESS);
 
         //ToDo: Add Auth-Token system per user, with refresh-token and expiry time

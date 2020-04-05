@@ -11,9 +11,11 @@ public class LoginResponseData {
     private LocalDateTime localDateTime;
     private String username;
     private Status status;
+    private String accessToken;
 
-    public LoginResponseData(String username, LocalDateTime localDateTime){
+    public LoginResponseData(String username, String accessToken, LocalDateTime localDateTime){
         this.username = username;
+        this.accessToken = accessToken;
         this.localDateTime = localDateTime;
     }
 
