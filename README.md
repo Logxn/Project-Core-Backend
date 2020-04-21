@@ -1,6 +1,7 @@
 # Project Core Backend
  
 **Warning - This project is still in development and far from finished**<br>
+**Name is subject to change**<br>
 
 ## The Idea
 With this project I want to be able to create a platform for companies or schools.<br>
