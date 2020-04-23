@@ -8,6 +8,7 @@
 		<version>2.2.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.logxn.projectcore</groupId>
 	<artifactId>PROJECT CORE</artifactId>
 	<version>0.5.1-ALPHA</version>
