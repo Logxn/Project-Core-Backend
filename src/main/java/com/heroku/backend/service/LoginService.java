@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Service
@@ -66,7 +67,10 @@ public class LoginService {
         foundUser.updateConnection(ConnectionStatus.LOGGED_IN);
         mongoOperations.save(foundUser);
 
-        LoginResponseData loginResponse = new LoginResponseData(foundUser.getUsername(), jwtTokenService.generateToken(foundUser.getUsername()), LocalDateTime.now());
+        String accessToken = jwtTokenService.generateToken(foundUser.getUsername());
+        Date expirationTime = jwtTokenService.getExpirationDateFromToken(accessToken);
+
+        LoginResponseData loginResponse = new LoginResponseData(foundUser.getUsername(), accessToken, expirationTime, LocalDateTime.now());
         loginResponse.setStatus(Status.SUCCESS);
 
         return ResponseEntity.ok(loginResponse);

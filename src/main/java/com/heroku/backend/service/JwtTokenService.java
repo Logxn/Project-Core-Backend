@@ -1,6 +1,8 @@
 package com.heroku.backend.service;
 
+import com.heroku.backend.exceptions.ExpiredTokenException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +23,29 @@ public class JwtTokenService {
         this.expiration = expiration;
     }
 
+    public String refreshToken(String token) throws ExpiredTokenException {
+        final Date createdDate = new Date();
+        final Date expirationTime = calculateExpiration(createdDate);
+        Claims claims;
+
+        try{
+            claims = getAllClaimsFromToken(token);
+        }
+        catch(ExpiredJwtException e)
+        {
+            throw new ExpiredTokenException();
+        }
+
+
+        claims.setIssuedAt(createdDate);
+        claims.setExpiration(expirationTime);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+    }
+
     public String generateToken(String username){
         final Date createdDate = new Date();
         final Date expirationTime = calculateExpiration(createdDate);
@@ -30,7 +55,7 @@ public class JwtTokenService {
                 .setSubject(username)
                 .setIssuedAt(createdDate)
                 .setExpiration(expirationTime)
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 
