@@ -13,6 +13,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
+	<groupId>com.logxn.projectcore</groupId>
+	<artifactId>PROJECT_CORE</artifactId>
+	<version>0.4-ALPHA</version>
+	<name>PROJECT CORE</name>
+	<description>YET TO BE REVEALED</description>
 
 	<properties>
 		<java.version>1.8</java.version>
