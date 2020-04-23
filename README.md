@@ -48,4 +48,4 @@ I want to thank [@JanEtschel]( https://github.com/janetschel) for giving me the 
 
 ## Deplyoment Status
 [![Heroku App Status](https://heroku-shields.herokuapp.com/project-core)](https://project-core.herokuapp.com)
-[Travis Build Status](https://api.travis-ci.com/Logxn/Project-Core-Backend.svg)(https://project-core.herokuapp.com)
+![Travis Build Status](https://api.travis-ci.com/Logxn/Project-Core-Backend.svg)(https://project-core.herokuapp.com)
