@@ -2,8 +2,10 @@ package com.heroku.backend.service;
 
 import com.heroku.backend.CryptoHelper;
 import com.heroku.backend.MongoDBConfiguration;
+import com.heroku.backend.data.CompanyData;
 import com.heroku.backend.data.RegisterData;
 import com.heroku.backend.data.response.RegisterResponseData;
+import com.heroku.backend.entity.CompanyEntity;
 import com.heroku.backend.entity.EmailEntity;
 import com.heroku.backend.entity.UserEntity;
 import com.heroku.backend.enums.AccountType;
@@ -64,6 +66,18 @@ public class RegisterService {
 
         usersRepository.insert(newUser);
         emailRepository.insert(new EmailEntity(email));
+
+        if(registerData.getCompanyData() != null){
+            CompanyData companyData = registerData.getCompanyData();
+            UserEntity userEntity = usersRepository.findByUsername(username);
+
+            // 1. Company needs to be created
+            // 2. User should be set as administrator
+            // This could be done by setting "private String AdministratorId" to the user-id
+            // This is also the reason why we do this after user-creation
+
+            CompanyEntity companyEntity = new CompanyEntity();
+        }
 
         return ResponseEntity.ok(responseData);
     }
