@@ -61,7 +61,7 @@ public class RegisterService {
         usersRepository.insert(newUser);
         emailRepository.insert(new EmailEntity(email));
 
-        if(registerData.getCompanyData() != null){
+        if(registerData.getCompanyData() != null && accountType == AccountType.EMPLOYER){
 
             // 1. Company needs to be created.
             // 2. User should be set as administrator.
