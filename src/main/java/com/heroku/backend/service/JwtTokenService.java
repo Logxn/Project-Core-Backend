@@ -21,13 +21,13 @@ public class JwtTokenService {
         this.expiration = expiration;
     }
 
-    public String generateToken(String username){
+    public String generateToken(String subject){
         final Date createdDate = new Date();
         final Date expirationTime = calculateExpiration(createdDate);
 
         return Jwts.builder()
                 .setClaims(new HashMap<>())
-                .setSubject(username)
+                .setSubject(subject)
                 .setIssuedAt(createdDate)
                 .setExpiration(expirationTime)
                 .signWith(SignatureAlgorithm.HS256, secret)
@@ -46,6 +46,26 @@ public class JwtTokenService {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
+    public boolean validateInviteToken(String token, String username){
+        String subject = getClaimFromToken(token, Claims::getSubject);
+
+        // Token could be access token or malformed
+        if(!subject.contains("INVITE"))
+            return false;
+
+        String[] args = subject.split("-");
+
+        // The token is for the current username
+        if(args[0] == "INVITE" && args[1] == username){
+            if(isTokenExpired(token))
+                return false;
+
+            return true;
+        }
+
+        return false;
+    }
+
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
@@ -58,13 +78,13 @@ public class JwtTokenService {
                 .getBody();
     }
 
-    private Boolean isTokenNotExpired(String token) {
+    private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.after(new Date());
     }
 
     public Optional<Boolean> validateToken(String token) {
-        return  isTokenNotExpired(token) ? Optional.of(Boolean.TRUE) : Optional.empty();
+        return  isTokenExpired(token) ?  Optional.empty() : Optional.of(Boolean.TRUE);
     }
 
 }
