@@ -7,6 +7,7 @@ import com.heroku.backend.data.response.LoginResponseData;
 import com.heroku.backend.entity.UserEntity;
 import com.heroku.backend.enums.ConnectionStatus;
 import com.heroku.backend.enums.Status;
+import com.heroku.backend.exceptions.InternalErrorException;
 import com.heroku.backend.exceptions.LoggedInException;
 import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.exceptions.InvalidUserPassException;
@@ -39,7 +40,7 @@ public class LoginService {
     }
 
     public ResponseEntity<LoginResponseData> login(@RequestBody LoginData loginData)
-            throws MissingParameterException, InvalidUserPassException, LoggedInException {
+            throws MissingParameterException, InvalidUserPassException, LoggedInException, InternalErrorException {
         String email = loginData.getEmail();
         String password = loginData.getPassword();
 

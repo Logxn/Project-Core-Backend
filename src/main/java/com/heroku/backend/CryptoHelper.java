@@ -1,5 +1,6 @@
 package com.heroku.backend;
 
+import com.heroku.backend.exceptions.InternalErrorException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,7 @@ public class CryptoHelper {
         }
     }
 
-    public String encryptString(String input){
+    public String encryptString(String input) throws InternalErrorException {
         try{
             KeySpec keySpec = new PBEKeySpec(key.toCharArray(), salt.getBytes(), 65536, 256);
             SecretKey tmp = secretKeyFactory.generateSecret(keySpec);
@@ -49,13 +50,16 @@ public class CryptoHelper {
 
             return Base64.getEncoder().encodeToString(cipher.doFinal(input.getBytes(StandardCharsets.UTF_8)));
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+            System.out.println("-----[ENCRYPTION ERROR]-----");
+            System.out.println("StackTrace: ");
             e.printStackTrace();
-        }
+            System.out.println("----------------------------");
 
-        return null;
+            throw new InternalErrorException();
+        }
     }
 
-    public String decryptString(String encryptedInput){
+    public String decryptString(String encryptedInput) throws InternalErrorException{
         try{
             KeySpec keySpec = new PBEKeySpec(key.toCharArray(), salt.getBytes(), 65536, 256);
             SecretKey tmp = secretKeyFactory.generateSecret(keySpec);
@@ -65,8 +69,12 @@ public class CryptoHelper {
             cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
             return new String(cipher.doFinal(Base64.getDecoder().decode(encryptedInput)));
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+            System.out.println("-----[ENCRYPTION ERROR]-----");
+            System.out.println("StackTrace: ");
             e.printStackTrace();
+            System.out.println("----------------------------");
+
+            throw new InternalErrorException();
         }
-        return null;
     }
 }

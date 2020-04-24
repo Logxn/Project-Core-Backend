@@ -11,6 +11,7 @@ import com.heroku.backend.enums.AccountType;
 import com.heroku.backend.enums.ConnectionStatus;
 import com.heroku.backend.enums.Status;
 import com.heroku.backend.exceptions.CompanyExistsException;
+import com.heroku.backend.exceptions.InternalErrorException;
 import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.exceptions.UserExistsException;
 import com.heroku.backend.repository.CompanyRepository;
@@ -38,7 +39,7 @@ public class RegisterService {
 
     }
 
-    public ResponseEntity<RegisterResponseData> register(@RequestBody RegisterData registerData) throws MissingParameterException, UserExistsException, CompanyExistsException {
+    public ResponseEntity<RegisterResponseData> register(@RequestBody RegisterData registerData) throws MissingParameterException, UserExistsException, CompanyExistsException, InternalErrorException {
         String email = registerData.getEmail();
         String username = registerData.getUsername();
         String password = registerData.getPassword();
@@ -70,7 +71,7 @@ public class RegisterService {
 
             CompanyData companyData = registerData.getCompanyData();
 
-            CompanyEntity foundCompany = companyRepository.findByCompanyName(companyData.getCompanyName());
+            CompanyEntity foundCompany = companyRepository.findByRegex(companyData.getCompanyName());
             if(foundCompany != null)
                 throw new CompanyExistsException();
 
