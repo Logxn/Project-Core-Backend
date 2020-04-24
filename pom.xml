@@ -10,7 +10,7 @@
 	</parent>
 
 	<groupId>com.logxn.projectcore</groupId>
-	<artifactId>PROJECT CORE</artifactId>
+	<artifactId>PROJECT_CORE</artifactId>
 	<version>0.5.1-ALPHA</version>
 	<name>PROJECT CORE</name>
 	<description>YET TO BE REVEALED</description>
