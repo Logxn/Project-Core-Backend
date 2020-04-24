@@ -47,4 +47,5 @@ Things the future might bring:<br>
 I want to thank [@JanEtschel]( https://github.com/janetschel) for giving me the idea and helping me understand how the spring framework works.
 
 ## Deplyoment Status
-[![Heroku App Status](https://heroku-shields.herokuapp.com/project-core)](https://project-core.herokuapp.com)
+![Heroku App Status](https://heroku-shields.herokuapp.com/project-core)
+![Travis Build Status](https://api.travis-ci.com/Logxn/Project-Core-Backend.svg)
