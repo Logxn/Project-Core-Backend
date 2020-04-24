@@ -10,7 +10,6 @@ import com.heroku.backend.enums.Status;
 import com.heroku.backend.exceptions.LoggedInException;
 import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.exceptions.InvalidUserPassException;
-import com.heroku.backend.repository.EmailRepository;
 import com.heroku.backend.repository.UsersRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -25,14 +24,12 @@ import java.time.LocalDateTime;
 @Service
 public class LoginService {
 
-    private EmailRepository emailRepository;
     private UsersRepository usersRepository;
     private JwtTokenService jwtTokenService;
     private CryptoHelper cryptoHelper;
     private MongoOperations mongoOperations;
 
-    public LoginService(EmailRepository emailRepository, UsersRepository usersRepository, JwtTokenService jwtTokenService, CryptoHelper cryptoHelper){
-        this.emailRepository = emailRepository;
+    public LoginService(UsersRepository usersRepository, JwtTokenService jwtTokenService, CryptoHelper cryptoHelper){
         this.usersRepository = usersRepository;
         this.jwtTokenService = jwtTokenService;
         this.cryptoHelper = cryptoHelper;

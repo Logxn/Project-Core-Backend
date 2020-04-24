@@ -2,7 +2,6 @@ package com.heroku.backend.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Entity;
