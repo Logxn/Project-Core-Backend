@@ -3,7 +3,6 @@ package com.heroku.backend.data.response;
 import com.heroku.backend.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 

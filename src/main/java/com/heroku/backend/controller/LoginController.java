@@ -2,6 +2,7 @@ package com.heroku.backend.controller;
 
 import com.heroku.backend.data.LoginData;
 import com.heroku.backend.data.response.LoginResponseData;
+import com.heroku.backend.exceptions.InternalErrorException;
 import com.heroku.backend.exceptions.LoggedInException;
 import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.exceptions.InvalidUserPassException;
@@ -20,7 +21,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseData> login(@RequestBody LoginData loginData)
-            throws MissingParameterException, InvalidUserPassException, LoggedInException {
+            throws MissingParameterException, InvalidUserPassException, LoggedInException, InternalErrorException {
         return loginService.login(loginData);
     }
 

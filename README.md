@@ -28,7 +28,7 @@ The employer can **choose** which information he wants to make publicly visible.
 - [x] Register
 - [x] Login
 - [x] Secure Authentication Via JWT
-- [ ] Company Creation
+- [X] Company Creation
 - [ ] Company Invitation
 - [ ] Creation Of Tasks
 - [ ] Deletion Of Tasks

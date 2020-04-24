@@ -1,22 +1,22 @@
 package com.heroku.backend.service;
 
 import com.heroku.backend.CryptoHelper;
-import com.heroku.backend.MongoDBConfiguration;
+import com.heroku.backend.data.CompanyData;
 import com.heroku.backend.data.RegisterData;
 import com.heroku.backend.data.response.RegisterResponseData;
+import com.heroku.backend.entity.CompanyEntity;
 import com.heroku.backend.entity.EmailEntity;
 import com.heroku.backend.entity.UserEntity;
 import com.heroku.backend.enums.AccountType;
 import com.heroku.backend.enums.ConnectionStatus;
 import com.heroku.backend.enums.Status;
+import com.heroku.backend.exceptions.CompanyExistsException;
+import com.heroku.backend.exceptions.InternalErrorException;
 import com.heroku.backend.exceptions.MissingParameterException;
 import com.heroku.backend.exceptions.UserExistsException;
+import com.heroku.backend.repository.CompanyRepository;
 import com.heroku.backend.repository.EmailRepository;
 import com.heroku.backend.repository.UsersRepository;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,21 +28,18 @@ public class RegisterService {
 
     private EmailRepository emailRepository;
     private UsersRepository usersRepository;
-    private MongoOperations mongoOperations;
+    private CompanyRepository companyRepository;
     private CryptoHelper cryptoHelper;
 
-    @Value("${encryption.salt}")
-    private String salt;
-
-    public RegisterService(UsersRepository usersRepository, EmailRepository emailRepository, CryptoHelper cryptoHelper) {
+    public RegisterService(UsersRepository usersRepository, EmailRepository emailRepository, CompanyRepository companyRepository, CryptoHelper cryptoHelper) {
         this.cryptoHelper = cryptoHelper;
         this.emailRepository = emailRepository;
         this.usersRepository = usersRepository;
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MongoDBConfiguration.class);
-        mongoOperations = (MongoOperations) applicationContext.getBean("mongoTemplate");
+        this.companyRepository = companyRepository;
+
     }
 
-    public ResponseEntity<RegisterResponseData> register(@RequestBody RegisterData registerData) throws MissingParameterException, UserExistsException {
+    public ResponseEntity<RegisterResponseData> register(@RequestBody RegisterData registerData) throws MissingParameterException, UserExistsException, CompanyExistsException, InternalErrorException {
         String email = registerData.getEmail();
         String username = registerData.getUsername();
         String password = registerData.getPassword();
@@ -64,6 +61,25 @@ public class RegisterService {
 
         usersRepository.insert(newUser);
         emailRepository.insert(new EmailEntity(email));
+
+        if(registerData.getCompanyData() != null && accountType == AccountType.EMPLOYER){
+
+            // 1. Company needs to be created.
+            // 2. User should be set as administrator.
+            // This could be done by setting "private String AdministratorId" to the user-id.
+            // This is also the reason why we do this after user-creation.
+
+            CompanyData companyData = registerData.getCompanyData();
+
+            CompanyEntity foundCompany = companyRepository.findByRegex("^" + companyData.getCompanyName() + "$");
+            if(foundCompany != null)
+                throw new CompanyExistsException();
+
+            UserEntity userEntity = usersRepository.findByUsername(username);
+
+            CompanyEntity companyEntity = new CompanyEntity(companyData.getCompanyName(), userEntity.getId(), new String[] { userEntity.getId() });
+            companyRepository.insert(companyEntity);
+        }
 
         return ResponseEntity.ok(responseData);
     }
