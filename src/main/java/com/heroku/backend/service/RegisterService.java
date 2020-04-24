@@ -71,7 +71,7 @@ public class RegisterService {
 
             CompanyData companyData = registerData.getCompanyData();
 
-            CompanyEntity foundCompany = companyRepository.findByRegex(companyData.getCompanyName());
+            CompanyEntity foundCompany = companyRepository.findByRegex("^" + companyData.getCompanyName() + "$");
             if(foundCompany != null)
                 throw new CompanyExistsException();
 
