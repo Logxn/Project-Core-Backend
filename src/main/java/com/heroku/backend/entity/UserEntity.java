@@ -9,7 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
+@SuppressWarnings("JpaAttributeTypeInspection")
 @Entity
 @Data
 @NoArgsConstructor
@@ -26,6 +28,8 @@ public class UserEntity {
     private String encryptedPassword;
     private AccountType accountType;
     private ConnectionStatus connectionStatus;
+    @JsonIgnore
+    private String company = null;
 
     public UserEntity(String email, String username, String password, AccountType accountType) {
         this.email = email;
@@ -37,5 +41,5 @@ public class UserEntity {
     public void updateConnection(ConnectionStatus connectionStatus){
         this.connectionStatus = connectionStatus;
     }
-
+    public void updateCompany(String company) { this.company = company; }
 }

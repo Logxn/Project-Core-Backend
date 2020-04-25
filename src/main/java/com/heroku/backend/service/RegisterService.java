@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class RegisterService {
@@ -77,7 +78,7 @@ public class RegisterService {
 
             UserEntity userEntity = usersRepository.findByUsername(username);
 
-            CompanyEntity companyEntity = new CompanyEntity(companyData.getCompanyName(), userEntity.getId(), new String[] { userEntity.getId() });
+            CompanyEntity companyEntity = new CompanyEntity(companyData.getCompanyName(), userEntity.getId(), new String[] {userEntity.getUsername()});
             companyRepository.insert(companyEntity);
         }
 
